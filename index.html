@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chamados - Vita Ambiental</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <header>
+    <h1>Vita Ambiental - Sistema de Chamados</h1>
+  </header>
+
+  <main>
+    <form id="formChamado">
+      <label for="nome">Nome Completo:</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="motivo">Motivo do Chamado:</label>
+      <textarea id="motivo" name="motivo" rows="4" required></textarea>
+
+      <label for="area">Área:</label>
+      <select id="area" name="area" required>
+        <option value="">Selecione...</option>
+        <option value="TI_AGUA_SUL">T.I Água Sul</option>
+        <option value="TI_BARRA_FUNDA">T.I Barra Funda</option>
+        <option value="Suporte">Suporte</option>
+        <option value="Administrativo">Administrativo</option>
+      </select>
+
+      <button type="submit">Enviar Chamado</button>
+    </form>
+
+    <div id="mensagem" class="hidden"></div>
+
+    <hr>
+
+    <button id="btnPainel">Acessar Painel</button>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("4M9U0ZFGixP5mS166"); // sua Public Key
+  </script>
+
+  <script src="script.js"></script>
+</

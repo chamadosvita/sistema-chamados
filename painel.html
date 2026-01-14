@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel de Chamados</title>
+<link rel="stylesheet" href="painel.css">
+</head>
+<body>
+
+<header>
+  <h1>Painel de Chamados - Vita Ambiental</h1>
+</header>
+
+<main>
+  <input id="filtro" type="text" placeholder="Filtrar por nome, área ou status...">
+  <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+    <button id="resetPainel" type="button">Resetar Painel</button>
+    <button id="recarregarPainel" type="button">Recarregar Painel</button>
+  </div>
+
+  <table id="tabelaChamados">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Área</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="painel.js"></script>
+</body>
+</html>
