@@ -79,30 +79,30 @@ document.addEventListener("change", async (e) => {
 
       // 3) Se virou "Avaliar", envia e-mail para o solicitante (uma vez)
       if (novoStatus === "Avaliar" && statusAnterior !== "Avaliar") {
-  if (typeof emailjs === "undefined") {
-    console.error("EmailJS não carregado no painel.html");
-    alert("EmailJS não carregado. Adicione o script do EmailJS no painel.html.");
-    return;
-  }
-
-  // Define CC conforme a área
+  // Define e-mail de reply conforme a área
+  let replyTo = "";
   let ccEmail = "";
-  if (area === "TI_AGUA_SUL" || area.toLowerCase().includes("água sul") || area.toLowerCase().includes("agua sul")) {
+
+  if (area === "TI_AGUA_SUL" || area.toLowerCase().includes("agua sul") || area.toLowerCase().includes("água sul")) {
+    replyTo = "auxinformatica@vitaengenharia.com.br";
     ccEmail = "auxinformatica@vitaengenharia.com.br";
   } else if (area === "TI_BARRA_FUNDA" || area.toLowerCase().includes("barra funda")) {
+    replyTo = "ti@vitaengenharia.com.br";
     ccEmail = "ti@vitaengenharia.com.br";
   }
 
   await emailjs.send("service_chamados", "template_avaliar_chamado", {
     to_email: email,
-    cc_email: ccEmail,
+    cc_email: ccEmail,     // opcional
+    reply_to: replyTo,     // ✅ faz a resposta ir pro lugar certo
     nome: nome,
     chamado_id: id,
     area: area
   });
 
-  mostrarMensagem(`E-mail de avaliação enviado para ${email} (CC: ${ccEmail || "sem CC"})`);
+  mostrarMensagem(`E-mail de avaliação enviado (responder vai para ${replyTo})`);
 }
+
     } else {
       alert("Erro ao atualizar status.");
       // volta o select pro status antigo
