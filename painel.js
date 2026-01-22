@@ -86,7 +86,7 @@ document.addEventListener("change", async (e) => {
           return;
         }
 
-        await emailjs.send("service_vita", "template_avaliar_chamado", {
+        await emailjs.send("service_chamados", "template_avaliar_chamado", {
           to_email: email,     // no template, o To precisa ser {{to_email}}
           nome: nome,
           chamado_id: id,
