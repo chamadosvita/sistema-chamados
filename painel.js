@@ -81,19 +81,18 @@ document.addEventListener("change", async (e) => {
       if (novoStatus === "Avaliar" && statusAnterior !== "Avaliar") {
   // Define e-mail de reply conforme a área
   let replyTo = "";
-  let ccEmail = "";
+  
 
   if (area === "TI_AGUA_SUL" || area.toLowerCase().includes("agua sul") || area.toLowerCase().includes("água sul")) {
     replyTo = "auxinformatica@vitaengenharia.com.br";
-    ccEmail = "auxinformatica@vitaengenharia.com.br";
+    
   } else if (area === "TI_BARRA_FUNDA" || area.toLowerCase().includes("barra funda")) {
     replyTo = "ti@vitaengenharia.com.br";
-    ccEmail = "ti@vitaengenharia.com.br";
+    
   }
 
   await emailjs.send("service_chamados", "template_avaliar_chamado", {
     to_email: email,
-    cc_email: ccEmail,     // opcional
     reply_to: replyTo,     // ✅ faz a resposta ir pro lugar certo
     nome: nome,
     chamado_id: id,
