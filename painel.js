@@ -9,12 +9,14 @@ async function carregarChamados() {
   const tabela = document.querySelector("#tabelaChamados tbody");
 
   try {
+
     const csvTexto = await fetch(CSV_URL).then(r => r.text());
     const parsed = Papa.parse(csvTexto, { header: true, skipEmptyLines: true });
 
     tabela.innerHTML = "";
 
     parsed.data.forEach(linha => {
+
       const id = (linha.ID || "").trim();
       const data = (linha.data || "").trim();
       const nome = (linha.nome || "").trim();
@@ -23,6 +25,7 @@ async function carregarChamados() {
       const status = (linha.status || "").trim();
 
       const tr = document.createElement("tr");
+
       tr.innerHTML = `
         <td>${id}</td>
         <td>${data}</td>
@@ -39,15 +42,21 @@ async function carregarChamados() {
           </select>
         </td>
       `;
+
       tabela.appendChild(tr);
+
     });
+
   } catch (err) {
+
     console.error("Erro ao carregar CSV:", err);
     alert("Erro ao carregar chamados.");
+
   }
 }
 
 document.addEventListener("change", async (e) => {
+
   if (!e.target.classList.contains("alterarStatus")) return;
 
   const select = e.target;
@@ -56,95 +65,136 @@ document.addEventListener("change", async (e) => {
   const id = select.dataset.id;
   const novoStatus = select.value;
 
-  // dados do solicitante (pra e-mail)
-  const nome = tr.children[2].textContent.trim();   // coluna Nome
-  const email = tr.children[3].textContent.trim();  // coluna Email
-  const area = tr.children[4].textContent.trim();   // coluna Área
+  const nome = tr.children[2].textContent.trim();
+  const email = tr.children[3].textContent.trim();
+  const area = tr.children[4].textContent.trim();
 
   const statusAnterior = tr.querySelector(".status").textContent.trim();
 
   try {
-    // 1) Atualiza status na planilha (Apps Script)
+
     const resp = await fetch(API_URL, {
       method: "POST",
-      body: new URLSearchParams({ atualizarStatus: "true", id, status: novoStatus })
+      body: new URLSearchParams({
+        atualizarStatus: "true",
+        id,
+        status: novoStatus
+      })
     });
 
     const json = await resp.json();
 
     if (json && json.sucesso) {
-      // 2) Atualiza status na tela
+
       tr.querySelector(".status").textContent = novoStatus;
+
       mostrarMensagem(`Status do chamado ${id} atualizado para "${novoStatus}"`);
 
-      // 3) Se virou "Avaliar", envia e-mail para o solicitante (uma vez)
+      // ENVIA EMAIL DE AVALIAÇÃO
       if (novoStatus === "Avaliar" && statusAnterior !== "Avaliar") {
-  // Define e-mail de reply conforme a área
-  let replyTo = "";
-  
 
-  if (area === "TI_AGUA_SUL" || area.toLowerCase().includes("agua sul") || area.toLowerCase().includes("água sul")) {
-    replyTo = "auxinformatica@vitaengenharia.com.br";
-    
-  } else if (area === "TI_BARRA_FUNDA" || area.toLowerCase().includes("barra funda")) {
-    replyTo = "ti@vitaengenharia.com.br";
-    
-  }
+        let replyTo = "";
 
-  await emailjs.send("service_chamados", "template_avaliar_chamado", {
-    to_email: email,
-    reply_to: replyTo,     // ✅ faz a resposta ir pro lugar certo
-    nome: nome,
-    chamado_id: id,
-    area: area
-  });
+        if (area.includes("Água Sul") || area.includes("Agua Sul") || area === "TI_AGUA_SUL") {
+          replyTo = "auxinformatica@vitaengenharia.com.br";
+        }
 
-  mostrarMensagem(`E-mail de avaliação enviado (responder vai para ${replyTo})`);
-}
+        else if (area.includes("Barra Funda") || area === "TI_BARRA_FUNDA") {
+          replyTo = "ti@vitaengenharia.com.br";
+        }
+
+        else if (area === "TI_BARRA_FUNDA_2") {
+          replyTo = "informatica@vitaengenharia.com.br";
+        }
+
+        else if (area === "SUPORTE_TI") {
+          replyTo = "suporte@vitaengenharia.com.br";
+        }
+
+        if (replyTo !== "") {
+
+          await emailjs.send("service_chamados", "template_avaliar_chamado", {
+            to_email: email,
+            reply_to: replyTo,
+            nome: nome,
+            chamado_id: id,
+            area: area
+          });
+
+          mostrarMensagem(`E-mail de avaliação enviado para ${email}`);
+
+        }
+
+      }
 
     } else {
+
       alert("Erro ao atualizar status.");
-      // volta o select pro status antigo
       select.value = statusAnterior || "Aberto";
+
     }
+
   } catch (err) {
+
     console.error(err);
     alert("Erro ao atualizar status.");
     select.value = statusAnterior || "Aberto";
+
   }
+
 });
 
 document.getElementById("resetPainel").addEventListener("click", () => {
+
   document.querySelector("#tabelaChamados tbody").innerHTML = "";
   painelResetado = true;
   mostrarMensagem("Painel resetado!");
+
 });
 
 document.getElementById("recarregarPainel").addEventListener("click", () => {
+
   painelResetado = false;
   carregarChamados();
   mostrarMensagem("Painel recarregado!");
+
 });
 
 function mostrarMensagem(msg) {
+
   let div = document.getElementById("mensagemPainel");
+
   if (!div) {
+
     div = document.createElement("div");
     div.id = "mensagemPainel";
+
     div.style.cssText =
       "position:fixed;top:20px;right:20px;background:#c8e6c9;color:#2e7d32;padding:12px 18px;border-radius:6px;box-shadow:0 3px 8px rgba(0,0,0,0.2);font-weight:bold;z-index:9999;";
+
     document.body.appendChild(div);
+
   }
+
   div.textContent = msg;
   div.style.display = "block";
-  setTimeout(() => { div.style.display = "none"; }, 3000);
+
+  setTimeout(() => {
+    div.style.display = "none";
+  }, 3000);
+
 }
 
 document.getElementById("filtro").addEventListener("input", function () {
+
   const termo = this.value.toLowerCase();
+
   document.querySelectorAll("#tabelaChamados tbody tr").forEach(tr => {
+
     tr.style.display = tr.innerText.toLowerCase().includes(termo) ? "" : "none";
+
   });
+
 });
 
 carregarChamados();
