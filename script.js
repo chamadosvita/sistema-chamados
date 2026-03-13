@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Envio de e-mail para o responsável correto
     let responsavelEmail = "";
     if (area === "TI_AGUA_SUL") responsavelEmail = "auxinformatica@vitaengenharia.com.br";
-    if (area === "TI_BARRA_FUNDA") responsavelEmail = "ti@vitaengenharia.com.br";
+    if (area === "TI_BARRA_FUNDA_1") responsavelEmail = "ti@vitaengenharia.com.br";
+    if (area === "TI_BARRA_FUNDA_2") responsavelEmail = "informatica@vitaengenharia.com.br";
+    if (area === "SUPORTE_TI") responsavelEmail = "suporte@vitaengenharia.com.br";
 
     if (responsavelEmail !== "") {
       emailjs.send("service_chamados", "template_4e1dwk8", {
