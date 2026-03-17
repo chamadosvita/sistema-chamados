@@ -6,13 +6,30 @@
   <title>Chamados - Vita Ambiental</title>
   <link href="style.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
-  <header>
-    <h1>Vita Ambiental - Sistema de Chamados</h1>
+
+  <!-- HEADER NOVO -->
+  <header class="header">
+
+    <div class="header-left">
+      <img src="logo.png" alt="Logo" class="logo">
+      <div class="titulo">
+        <h1>Vita Ambiental</h1>
+        <span>Sistema de Chamados</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button id="btnPainel" class="btn-painel">Acessar Painel</button>
+    </div>
+
   </header>
 
   <main>
+
     <form id="formChamado">
+
       <label for="nome">Nome Completo:</label>
       <input type="text" id="nome" name="nome" required />
 
@@ -25,29 +42,30 @@
       <label for="area">Área:</label>
       <select id="area" required>
 
-  <option value="">Selecione...</option>
+        <option value="">Selecione...</option>
 
-  <option value="TI_AGUA_SUL">T.I Água Sul (Otavio)</option>
-  <option value="TI_BARRA_FUNDA">T.I Barra Funda (Igor)</option>
-  <option value="TI_BARRA_FUNDA_2">T.I Barra Funda (Marcelo)</option>
-  <option value="SUPORTE_TI">Suporte T.I (Claudio)</option>
+        <option value="TI_AGUA_SUL">T.I Água Sul (Otavio)</option>
+        <option value="TI_BARRA_FUNDA">T.I Barra Funda (Igor)</option>
+        <option value="TI_BARRA_FUNDA_2">T.I Barra Funda (Marcelo)</option>
+        <option value="SUPORTE_TI">Suporte T.I (Claudio)</option>
 
-</select>
+      </select>
 
       <button type="submit">Enviar Chamado</button>
+
     </form>
 
     <div id="mensagem" class="hidden"></div>
 
-    <hr>
-
-    <button id="btnPainel">Acessar Painel</button>
   </main>
 
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    emailjs.init("4M9U0ZFGixP5mS166"); // sua Public Key
+    emailjs.init("4M9U0ZFGixP5mS166");
   </script>
 
   <script src="script.js"></script>
 
+</body>
+</html>

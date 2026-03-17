@@ -5,13 +5,57 @@ body {
     padding: 0;
 }
 
-header {
+/* HEADER NOVO */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #17a5ba;
     color: white;
-    text-align: center;
-    padding: 20px;
+    padding: 12px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
+/* Lado esquerdo */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+}
+
+/* Texto */
+.titulo h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.titulo span {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* Botão painel (topo) */
+.btn-painel {
+    background: white;
+    color: #17a5ba;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: auto;
+}
+
+.btn-painel:hover {
+    background: #e3f2fd;
+}
+
+/* CONTEÚDO */
 main {
     max-width: 500px;
     margin: 30px auto;
@@ -21,13 +65,16 @@ main {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* FORM */
 form label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
 }
 
-form input, form textarea, form select {
+form input, 
+form textarea, 
+form select {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -35,7 +82,8 @@ form input, form textarea, form select {
     border-radius: 4px;
 }
 
-button {
+/* BOTÃO PRINCIPAL */
+form button {
     margin-top: 15px;
     width: 100%;
     padding: 10px;
@@ -47,10 +95,11 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #1b5e20;
+form button:hover {
+    background-color: #128293;
 }
 
+/* MENSAGEM */
 .hidden {
     display: none;
 }
